@@ -1,5 +1,6 @@
 import logging
 import os
+from dotenv import load_dotenv
 from gtts import gTTS
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
@@ -11,8 +12,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Токен вашего бота
-BOT_TOKEN = "ВСТАВЬТЕ_СЮДА_ВАШ_ТОКЕН"
+# Загружаем переменные из .env файла
+load_dotenv()
+
+# Получаем токен из переменных окружения
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+
+if not BOT_TOKEN:
+    raise ValueError("Токен бота не найден! Проверьте файл .env")
 
 # Функция для команды /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
